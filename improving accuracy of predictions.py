@@ -15,13 +15,13 @@ from sklearn.metrics import mean_absolute_error
 st.title("PTA Prediction from ASSR")
 
 
-df = pd.read_excel("Final_Combined_Cleaned_No_Age_Gender.xlsx")
+df = pd.read_excel("Final_Combined_Cleaned_No_Age_Gender.xlxs")
 
-
-
+# Add ASSR_avg feature
+df["ASSR_avg"] = df[["ASSR_500Hz", "ASSR_1KHz", "ASSR_2KHz", "ASSR_4KHz"]].mean(axis=1)
 
 # Features and targets
-X = df[['ASSR_500Hz', 'ASSR_1KHz', 'ASSR_2KHz', 'ASSR_4KHz']]
+X = df[['ASSR_500Hz', 'ASSR_1KHz', 'ASSR_2KHz', 'ASSR_4KHz', 'ASSR_avg']]
 y = df[['PTA_500Hz', 'PTA_1KHz', 'PTA_2KHz', 'PTA_4KHz']]
 
 # Scaling
@@ -39,6 +39,8 @@ assr_input = [
     st.number_input("ASSR_2KHz", 0, 120, 50),
     st.number_input("ASSR_4KHz", 0, 120, 50),
 ]
+assr_avg = np.mean(assr_input)
+assr_input.append(assr_avg)
 
 # Model selection
 model_option = st.selectbox("Choose a model", ["LinearRegression", "SVM", "DecisionTree", "RandomForest", "KNN"])
@@ -55,8 +57,8 @@ elif model_option == "DecisionTree":
     params = {'estimator__max_depth': [max_depth]}
     model = MultiOutputRegressor(DecisionTreeRegressor(random_state=42))
 elif model_option == "RandomForest":
-    n_estimators = st.slider("n_estimators", 1, 200, 100)
-    max_depth = st.slider("Max Depth", 1, 20, 10)
+    n_estimators = st.slider("n_estimators", 10, 200, 50)
+    max_depth = st.slider("Max Depth", 1, 20, 5)
     params = {'estimator__n_estimators': [n_estimators], 'estimator__max_depth': [max_depth]}
     model = MultiOutputRegressor(RandomForestRegressor(random_state=42))
 elif model_option == "KNN":
