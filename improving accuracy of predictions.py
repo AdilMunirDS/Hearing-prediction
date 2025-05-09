@@ -14,14 +14,11 @@ from sklearn.metrics import mean_absolute_error
 # Title
 st.title("PTA Prediction from ASSR")
 
-
+# Load cleaned data from file in repo
 df = pd.read_excel("Final_Combined_Cleaned_No_Age_Gender.xlsx")
 
-# Add ASSR_avg feature
-df["ASSR_avg"] = df[["ASSR_500Hz", "ASSR_1KHz", "ASSR_2KHz", "ASSR_4KHz"]].mean(axis=1)
-
-# Features and targets
-X = df[['ASSR_500Hz', 'ASSR_1KHz', 'ASSR_2KHz', 'ASSR_4KHz', 'ASSR_avg']]
+# Features and targets (NO ASSR_avg)
+X = df[['ASSR_500Hz', 'ASSR_1KHz', 'ASSR_2KHz', 'ASSR_4KHz']]
 y = df[['PTA_500Hz', 'PTA_1KHz', 'PTA_2KHz', 'PTA_4KHz']]
 
 # Scaling
@@ -39,9 +36,6 @@ assr_input = [
     st.number_input("ASSR_2KHz", 0, 120, 50),
     st.number_input("ASSR_4KHz", 0, 120, 50),
 ]
-assr_avg = np.mean(assr_input)
-assr_input.append(assr_avg)
-
 # Model selection
 model_option = st.selectbox("Choose a model", ["LinearRegression", "SVM", "DecisionTree", "RandomForest", "KNN"])
 
