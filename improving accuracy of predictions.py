@@ -15,7 +15,7 @@ from sklearn.metrics import mean_absolute_error
 st.title("PTA Prediction from ASSR")
 
 
-df = pd.read_excel("Final_Combined_Cleaned_No_Age_Gender.xlxs")
+df = pd.read_excel("Final_Combined_Cleaned_No_Age_Gender.xlsx")
 
 # Add ASSR_avg feature
 df["ASSR_avg"] = df[["ASSR_500Hz", "ASSR_1KHz", "ASSR_2KHz", "ASSR_4KHz"]].mean(axis=1)
