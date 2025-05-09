@@ -55,8 +55,8 @@ elif model_option == "DecisionTree":
     params = {'estimator__max_depth': [max_depth]}
     model = MultiOutputRegressor(DecisionTreeRegressor(random_state=42))
 elif model_option == "RandomForest":
-    n_estimators = st.slider("n_estimators", 50, 200, 100)
-    max_depth = st.slider("Max Depth", 5, 20, 10)
+    n_estimators = st.slider("n_estimators", 1, 200, 100)
+    max_depth = st.slider("Max Depth", 1, 20, 10)
     params = {'estimator__n_estimators': [n_estimators], 'estimator__max_depth': [max_depth]}
     model = MultiOutputRegressor(RandomForestRegressor(random_state=42))
 elif model_option == "KNN":
